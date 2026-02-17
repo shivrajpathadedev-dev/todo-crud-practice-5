@@ -4,7 +4,7 @@ const cl=console.log;
 const todocontainer=document.getElementById('todocontainer');
 const subbtn=document.getElementById('subbtn');
 const updbtn=document.getElementById('updbtn');
-const todoitem=document.getElementById('todoitem');
+const todoItem=document.getElementById('todoItem');
 const todoform=document.getElementById('todoform');
 
 
@@ -49,11 +49,12 @@ function onaddtodo(eve){
     eve.preventDefault();
 
     let obj={
-        todoItem:todoitem.value,
+        todoItem:todoItem.value,
         todoId:Date.now().toString()
     }
       
     todoform.reset();
+    arr.push(obj)
     let li=document.createElement('li');
     li.id=obj.todoId;
     li.className=`list-group-item d-flex justify-content-between align-items-center`
@@ -66,7 +67,7 @@ function onaddtodo(eve){
     let ul=document.querySelector('#todocontainer ul')
     ul.prepend(li);
 
-    snackbar('The new Todo Item ${obj.todoItem} is added successfully !!!','success')
+    snackbar(`The new Todo Item ${obj.todoItem} is added successfully !!!`,'success')
 
 
 }
@@ -85,9 +86,8 @@ function onRemove(eve){
 let EDIT_ID;
 function onEditbtn(eve){
     EDIT_ID=eve.closest('li').id;
-
     let EDIT_OBJ=arr.find(c=>c.todoId===EDIT_ID);
-    todoitem.value=EDIT_OBJ.todoItem;
+    todoItem.value=EDIT_OBJ.todoItem;
     subbtn.classList.add('d-none');
     updbtn.classList.remove('d-none');
 }
@@ -95,9 +95,11 @@ function onEditbtn(eve){
 //update
 function onupdatebtn(eve){
     let UPDATE_OBJ={
-        todoItem:todoitem.value,
+        todoItem:todoItem.value,
         todoId:EDIT_ID
     }
+
+    todoform.reset()
 
    cl(UPDATE_OBJ);
    
@@ -107,7 +109,9 @@ function onupdatebtn(eve){
     subbtn.classList.remove('d-none');
     
     let li=document.getElementById(EDIT_ID).firstElementChild
-    li.innerText=UPDATE_OBJ.todoItem
+    li.innerText=UPDATE_OBJ.todoItem;
+
+    snackbar(`the todoItem ${UPDATE_OBJ.todoItem} is updated successfully !!!`,'success')
 }
 
 createList(arr);
